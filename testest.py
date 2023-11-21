@@ -1,41 +1,79 @@
 import streamlit as st
 import pandas as pd
-import time
 from geopy.geocoders import Nominatim
 
-Endereço = st.sidebar.text_input(label= 'Endereço')
-Consumo = st.sidebar.number_input(label= 'Consumo')
+st.set_page_config(initial_sidebar_state= 'expanded', layout= 'wide')
 
-while Consumo > 0 and Endereço.strip():
-    time.sleep(1)
+End = 'Rua Endereço, 123'
+Con= 0
 
-    geolocator = Nominatim(user_agent='victor.ynz28@gmail.com')
-    location = geolocator.geocode(Endereço)
+Endereço = st.sidebar.text_input(label= 'Endereço', value= End, placeholder= End)
+Consumo = st.sidebar.number_input(label= 'Consumo (kWh)', value= Con, placeholder= Con)
 
-    df = pd.read_csv(delimiter= ';', filepath_or_buffer='C:\\Users\\Victor\\Documents\\GitHub\\teste2.1\\global_horizontal_means.csv')
+tab1, tab2 = st.tabs(['Geração', 'Retorno'])
 
-    df['closeness'] = abs(df['LON']- location.longitude) + abs(df['LAT'] - location.latitude)
+with tab1:
 
-    df = df.sort_values(by='closeness')
+    st.header('Geração Mensal Estimada')
 
-    df = df.loc[::, 'ANNUAL': 'DEC']
+    ger = pd.DataFrame(index= ('ANNUAL','JAN','FEV','MAR','ABR','JUN','JUL','AGO','SET','OUT','NOV','DEC'), data= {'GER':(0,0,0,0,0,0,0,0,0,0,0,0)})
 
-    pt = pd.DataFrame(df.iloc[0])
+    qtd_modulo = ""
 
-    modulo = 2.279*1.134
+    finalvalue = ""
 
-    area = Consumo / ((pt.iloc[0].item() * 0.2 * (365/12)) / 10**3) 
 
-    qtd_modulo = round(int(area / modulo) + 0.6)
+    if Consumo == 0: 
+        
+        st.bar_chart( data = ger)
 
-    gr = ((pt * 0.2 * (365/12)) * round(int(qtd_modulo * modulo) + 0.6)) / 10**3
+        st.text_input(label= 'Quantidade de Módulos', value= qtd_modulo)
 
-    st.header('Geração Mensal Estimda')
+        st.text_input(label= 'Valor Estimado', value= finalvalue)
 
-    st.bar_chart( data = gr)
+        
+    if Consumo != Con and Endereço != End:
+            
+        geolocator = Nominatim(user_agent='victor.ynz28@gmail.com')
+        location = geolocator.geocode(Endereço)
 
-    st.text_input(label= 'Quantidade de Módulos', value= qtd_modulo)
+        df = pd.read_csv(delimiter= ';', filepath_or_buffer='C:\\Users\\Victor\\Documents\\GitHub\\teste2.1\\global_horizontal_means.csv')
 
-    st.text_input(label= 'Valor Estimado', value= 'R$' + '  ' + str(qtd_modulo * 0.55 * 3500))
+        df['closeness'] = abs(df['LON']- location.longitude) + abs(df['LAT'] - location.latitude)
 
-    Consumo = 0
+        df = df.sort_values(by='closeness')
+
+        df = df.loc[::, 'ANNUAL': 'DEC']
+
+        pt = pd.DataFrame(df.iloc[0])
+
+        modulo = 2.279*1.134
+
+        area = Consumo / ((pt.iloc[0].item() * 0.2 * (365/12)) / 10**3) 
+
+        qtd_modulo = round(int(area / modulo) + 0.6)
+
+        ger = ((pt * 0.2 * (365/12)) * round(int(qtd_modulo * modulo) + 0.6)) / 10**3
+
+        finalvalue= 'R$' + '  ' + str(qtd_modulo * 0.55 * 3500)
+
+        st.bar_chart( data = ger)
+
+        st.text_input(label= 'Quantidade de Módulos', value= qtd_modulo)
+
+        st.text_input(label= 'Valor Estimado', value= finalvalue)
+
+
+with tab2:
+
+    st.header('Cálculo de Retorno Financeiro Estimado')
+
+    ret = pd.DataFrame(index= ('2023','2024','2025','2026','2027','2028','2029','2030','2031','2032','2033'), data= {'GER':(0,0,0,0,0,0,0,0,0,0,0)})
+
+    if Consumo == 0:
+
+        st.bar_chart(ret)
+
+    if Consumo != Con and Endereço != End:
+        
+        st.bar_chart(ret)
