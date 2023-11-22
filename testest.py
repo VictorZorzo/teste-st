@@ -70,7 +70,9 @@ with tab2:
 
     st.header('Cálculo de Retorno Financeiro Estimado')
 
-    ret = pd.DataFrame(index= ('2023','2024','2025','2026','2027','2028','2029','2030','2031','2032','2033'), data= {'GER':(0,0,0,0,0,0,0,0,0,0,0)})
+    ret = pd.DataFrame(index= ('2024','2025','2026','2027','2028','2029','2030','2031','2032','2033','2034'), data= {'GER':(0,0,0,0,0,0,0,0,0,0,0)})
+
+    st.text_input(label= 'Retorno do Investimento Estimado para')
 
     if Consumo == 0:
 
@@ -88,12 +90,21 @@ with tab2:
 
         line = 0
 
+        found = 0
+
         while line < len(ret):
             if line == 0:
-                ret.iat[line, 0] = Annual_Return - FinalValue
+                ret.iloc[line, 0] = Annual_Return - FinalValue
                 line = line +1
             else:
-                ret.iat[line, 0] = ret.iat[line - 1, 0]  + (Annual_Return * Annual_Ajust) 
+                Annual_Return = Annual_Return * Annual_Ajust
+                ret.iloc[line, 0] = ret.iloc[line - 1, 0]  + Annual_Return 
                 line = line + 1
+                if ret.iloc[line -1, 0] > 0 and found == 0:
+                        Tret = ret.iloc[line -1,::]
+                        found = 1
+                    
       
         st.bar_chart(ret)
+
+        st.text_input(label= 'Retorno do Investimento Estimado para', value= Tret.name)
