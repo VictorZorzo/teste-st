@@ -55,7 +55,9 @@ with tab1:
 
         ger = ((pt * 0.2 * (365/12)) * round(int(qtd_modulo * modulo) + 0.6)) / 10**3
 
-        finalvalue= 'R$' + '  ' + str(qtd_modulo * 0.55 * 3500)
+        FinalValue = qtd_modulo * 0.55 * 3500
+
+        finalvalue= 'R$' + '  ' + str(FinalValue)
 
         st.bar_chart( data = ger)
 
@@ -75,5 +77,23 @@ with tab2:
         st.bar_chart(ret)
 
     if Consumo != Con and Endereço != End:
+
+        kWh_Cost = 0.79
+
+        Annual_Ajust = 1.07
         
+        Annual_Generation = (ger.iloc[0] * 12)
+
+        Annual_Return = Annual_Generation * (kWh_Cost)
+
+        line = 0
+
+        while line < len(ret):
+            if line == 0:
+                ret.iat[line, 0] = Annual_Return - FinalValue
+                line = line +1
+            else:
+                ret.iat[line, 0] = ret.iat[line - 1, 0]  + (Annual_Return * Annual_Ajust) 
+                line = line + 1
+      
         st.bar_chart(ret)
