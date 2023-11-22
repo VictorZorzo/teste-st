@@ -72,11 +72,11 @@ with tab2:
 
     ret = pd.DataFrame(index= ('2024','2025','2026','2027','2028','2029','2030','2031','2032','2033','2034'), data= {'GER':(0,0,0,0,0,0,0,0,0,0,0)})
 
-    st.text_input(label= 'Retorno do Investimento Estimado para')
-
     if Consumo == 0:
 
         st.bar_chart(ret)
+
+        st.text_input(label= 'Retorno do Investimento Estimado para')
 
     if Consumo != Con and Endereço != End:
 
