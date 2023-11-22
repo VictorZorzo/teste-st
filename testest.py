@@ -37,7 +37,7 @@ with tab1:
         geolocator = Nominatim(user_agent='victor.ynz28@gmail.com')
         location = geolocator.geocode(Endereço)
 
-        df = pd.read_csv(delimiter= ';', filepath_or_buffer='C:\\Users\\Victor\\Documents\\GitHub\\teste2.1\\global_horizontal_means.csv')
+        df = pd.read_csv(delimiter= ';', filepath_or_buffer='global_horizontal_means.csv')
 
         df['closeness'] = abs(df['LON']- location.longitude) + abs(df['LAT'] - location.latitude)
 
