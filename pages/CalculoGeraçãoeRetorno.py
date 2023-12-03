@@ -9,7 +9,7 @@ endereço = st.sidebar.text_input(label= '1-Endereço', value='Rua Endereço, 12
 consumo = st.sidebar.number_input(label= '2-Consumo (kWh)', value= 0, placeholder= 0)
 concessionaria = st.sidebar.text_input(label= '3-Concessionária')
 
-Parametros = st.sidebar.expander(label='Parâmetos')
+Parametros = st.sidebar.expander(label='Parâmetros')
 
 tab1, tab2 = st.tabs(['Geração', 'Retorno'])
 
@@ -71,9 +71,6 @@ with tab2:
     ret = pd.DataFrame(index= ('2024','2025','2026','2027','2028','2029','2030','2031','2032','2033','2034'), data= {'GER':(0,0,0,0,0,0,0,0,0,0,0)})
 
     if concessionaria == '':
-
-        st.bar_chart(ret)
-
         col1, col2 = st.columns(2)
 
         with col1:
@@ -82,8 +79,13 @@ with tab2:
 
         with col2:
 
-            st.text_input(label= 'Retorno do Investimento Estimado para')
+            st.text_input(label= 'Aumento Anual Médio')
 
+        st.bar_chart(ret)
+
+        st.text_input(label= 'Retorno do Investimento Estimado para')
+
+        
     if consumo != 0 and endereço != 'Rua Endereço, 123' and concessionaria != '':
 
         ret, Vlrkwh, tret, Diff = CalRet(Ret= ret, Cons= consumo, End= endereço, Conc= concessionaria, Icms= icms, Pis= pis, Cofins= cofins, Vlrkwp= vlrkwp)
