@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 st.markdown(
     """
     ### Bem Vindo à Plataforma de Predição de Valores para Sistemas de Energia Solar no Brasil!
