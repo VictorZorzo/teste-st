@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.sidebar.success("Please Select the Page")
+
 st.markdown(
     """
     ### Bem Vindo à Plataforma de Predição de Valores para Sistemas de Energia Solar no Brasil!
