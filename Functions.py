@@ -169,7 +169,7 @@ def CalRet(Ret, End, Cons, Conc, Icms, Pis, Cofins, Vlrkwp):
 
     Annual_Ajust = Diff
         
-    Annual_Generation = (ger.iloc[0] * 12)
+    Annual_Generation = round((ger.iloc[0] * 12), 2)
 
     Annual_Return = Annual_Generation * (Vlrkwh)
 
