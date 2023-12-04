@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(initial_sidebar_state= 'expanded', menu_items= {'GitHub Project Folder': 'https://github.com/VictorZorzo/teste-st'})
+st.set_page_config(initial_sidebar_state= 'expanded', menu_items= {'About': 'https://github.com/VictorZorzo/teste-st'})
 
 st.markdown(
     """
